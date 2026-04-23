@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  padding-top: 50px;
+}
+
+.page-wrapper {
+  width: 100%;
+  max-width: 1500px;
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  gap: 20px;
+  width: 100%;
+}

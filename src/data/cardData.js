@@ -9,27 +9,33 @@ const pokemonNames = [
   "lucario",
   "mew",
   "umbreon",
-  "mimikyu-disguised",
+  "blastoise",
   "rayquaza",
   "psyduck",
   "meowth",
 ];
 
-export async function cardData() {
+export async function getCardData() {
   const requests = pokemonNames.map((name) => {
     return fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
       .then((response) => response.json())
       .then((data) => {
         const imageUrl = data.sprites.front_default;
-        return { name: name, imageUrl: imageUrl };
+        return {
+          name: name.toUpperCase(),
+          imageUrl: imageUrl,
+          key: crypto.randomUUID(),
+        };
       })
       .catch(() => {
-        return { name: name, imageUrl: imageNotFound };
+        return {
+          name: name.toUpperCase(),
+          imageUrl: imageNotFound,
+          key: crypto.randomUUID(),
+        };
       });
   });
 
   const cardData = await Promise.all(requests);
   return cardData;
 }
-
-console.log(await cardData());
