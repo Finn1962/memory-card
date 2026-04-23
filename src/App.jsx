@@ -1,6 +1,6 @@
-import { useState } from "react";
 import "./App.css";
+import "./data/cardData.js";
 
-function App() {
+export default function App() {
   return;
 }
