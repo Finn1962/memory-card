@@ -3,29 +3,54 @@ import PointsDisplay from "./components/pointsDisplay/PointsDisplay.jsx";
 
 import { getCardData } from "./data/cardData.js";
 
-import { useState, useEffect, useRef } from "react";
-import { useShuffle } from "./hooks/useShuffle.js";
+import { useState, useEffect } from "react";
 
 import "./App.css";
 import "./data/cardData.js";
 
 export default function App() {
-  const { shuffle } = useShuffle();
-
   const [data, setData] = useState([]);
 
-  const usedCards = useRef([]);
+  const [usedCards, setUsedCards] = useState([]);
   const [score, setScore] = useState(0);
   const [bestScore, setBestScore] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       const newData = await getCardData();
-      const randomizedData = shuffle(newData);
-      setData(randomizedData);
+      setData(() => shuffle(newData));
     };
     fetchData();
   }, []);
+
+  function shuffle(array) {
+    const newArray = [...array];
+    let currentIndex = newArray.length;
+
+    while (currentIndex != 0) {
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [newArray[currentIndex], newArray[randomIndex]] = [
+        newArray[randomIndex],
+        newArray[currentIndex],
+      ];
+    }
+
+    return newArray;
+  }
+
+  function handleClick(id) {
+    if (!usedCards.includes(id)) {
+      setUsedCards((prev) => [...prev, id]);
+      setScore((prev) => prev + 1);
+    } else {
+      setUsedCards([]);
+      if (score > bestScore) setBestScore(score);
+      setScore(0);
+    }
+    setData((prev) => shuffle(prev));
+  }
 
   return (
     <>
@@ -35,18 +60,11 @@ export default function App() {
           {data.map((element) => {
             return (
               <Card
-                data={data}
                 name={element.name}
                 imageUrl={element.imageUrl}
                 key={element.key}
                 id={element.key}
-                usedCards={usedCards}
-                setData={setData}
-                shuffle={shuffle}
-                setScore={setScore}
-                score={score}
-                setBestScore={setBestScore}
-                bestScore={bestScore}
+                handleClick={handleClick}
               />
             );
           })}

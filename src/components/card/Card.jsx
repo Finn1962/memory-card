@@ -1,34 +1,8 @@
 import "./card.css";
 
-export default function Card({
-  name,
-  imageUrl,
-  usedCards,
-  id,
-  setData,
-  data,
-  shuffle,
-  score,
-  setScore,
-  bestScore,
-  setBestScore,
-}) {
+export default function Card({ name, imageUrl, id, handleClick }) {
   return (
-    <div
-      className="container noselect"
-      onClick={() => {
-        if (!usedCards.current.includes(id)) {
-          usedCards.current.push(id);
-          setScore(score + 1);
-        } else {
-          usedCards.current.splice(0, usedCards.current.length);
-          if (score > bestScore) setBestScore(score);
-          setScore(0);
-        }
-        const randomizedData = shuffle(data);
-        setData(randomizedData);
-      }}
-    >
+    <div className="container noselect" onClick={() => handleClick(id)}>
       <div className="canvas">
         <div className="tracker tr-1"></div>
         <div className="tracker tr-2"></div>
