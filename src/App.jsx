@@ -1,5 +1,5 @@
 import Card from "./components/card/Card.jsx";
-import PointsDisplay from "./components/card/pointsDisplay/PointsDisplay.jsx";
+import PointsDisplay from "./components/pointsDisplay/PointsDisplay.jsx";
 
 import { getCardData } from "./data/cardData.js";
 
@@ -15,6 +15,8 @@ export default function App() {
   const [data, setData] = useState([]);
 
   const usedCards = useRef([]);
+  const [score, setScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,8 +30,8 @@ export default function App() {
   return (
     <>
       <div className="page-wrapper">
-        <PointsDisplay />
-        <div className="card-container">
+        <PointsDisplay score={score} bestScore={bestScore} />
+        <div className="cards-container">
           {data.map((element) => {
             return (
               <Card
@@ -41,6 +43,10 @@ export default function App() {
                 usedCards={usedCards}
                 setData={setData}
                 shuffle={shuffle}
+                setScore={setScore}
+                score={score}
+                setBestScore={setBestScore}
+                bestScore={bestScore}
               />
             );
           })}

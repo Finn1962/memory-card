@@ -8,6 +8,10 @@ export default function Card({
   setData,
   data,
   shuffle,
+  score,
+  setScore,
+  bestScore,
+  setBestScore,
 }) {
   return (
     <div
@@ -15,10 +19,14 @@ export default function Card({
       onClick={() => {
         if (!usedCards.current.includes(id)) {
           usedCards.current.push(id);
+          setScore(score + 1);
+        } else {
+          usedCards.current.splice(0, usedCards.current.length);
+          if (score > bestScore) setBestScore(score);
+          setScore(0);
         }
         const randomizedData = shuffle(data);
         setData(randomizedData);
-        console.log(usedCards.current);
       }}
     >
       <div className="canvas">
